@@ -1,16 +1,18 @@
+
+
 # Application Load Balancer (ALB)
 resource "aws_lb" "this" {
-  name               = "${var.service_name}-alb"
+  name               = "${var.application_environment}-alb"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [aws_security_group.alb.id]
+  security_groups    = [aws_security_group.this.id]
   subnets            = var.subnets
 }
 
 # ALB Security Group
-resource "aws_security_group" "alb" {
-  name        = "${var.service_name}-alb-sg"
-  description = "Allow inbound traffic to ALB"
+resource "aws_security_group" "this" {
+  name        = "${var.application_environment}-alb-sg"
+  description = "Security Group For Application Load Balanacer: ${var.application_environment}-alb"
   vpc_id      = var.vpc_id
 
   ingress {
@@ -19,18 +21,11 @@ resource "aws_security_group" "alb" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
 }
 
 # ALB Target Group
 resource "aws_lb_target_group" "this" {
-  name     = "${var.service_name}-tg"
+  name     = "${var.application_environment}-tg"
   port     = var.container_port
   protocol = "HTTP"
   vpc_id   = var.vpc_id
@@ -54,3 +49,4 @@ resource "aws_lb_listener" "this" {
     type             = "forward"
     target_group_arn = aws_lb_target_group.this.arn
   }
+} 

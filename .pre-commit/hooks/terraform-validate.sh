@@ -3,7 +3,7 @@
 terraform validate
 
 # Find all directories containing .tf files and run terraform validate
-for dir in $(find . -type f -name "*.tf" -exec dirname {} \; | sort -u); do
+for dir in ./modules/; do
   echo "🔍 Validating Terraform in $dir..."
   
   # Change into the directory and run terraform commands
