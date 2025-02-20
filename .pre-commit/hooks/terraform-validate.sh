@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 
-terraform validate
+terraform init -backend=false -input=false && terraform validate
 
-# Find all directories containing .tf files and run terraform validate
-for dir in ./modules/; do
-  echo "🔍 Validating Terraform in $dir..."
+find ./modules -maxdepth 1 -type d | while read -r dir; do
+  echo "🔍 Validating Terraform in $dir"
   
   # Change into the directory and run terraform commands
   (cd "$dir" && terraform init -backend=false -input=false && terraform validate)
