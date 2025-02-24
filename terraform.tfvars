@@ -1,7 +1,7 @@
 env = "dev"
 application_name = "ExampleApplication"
 vpc_cidr = "10.0.0.0/16"
-execution_role_arn = "arn:aws:iam::123456789012:role/ecsTaskExecutionRole"
+execution_role_arn = "arn:aws:iam:::role/ecsTaskExecutionRole"
 
 tags = {
   Environment = "dev"
