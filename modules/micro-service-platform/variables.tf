@@ -17,7 +17,6 @@ variable "services" {
     container_port  = number
     lb_config = optional(object({
       ingress_cidrs = list(string)
-      subnets       = string
       path_pattern  = string
       priority      = number
     }))

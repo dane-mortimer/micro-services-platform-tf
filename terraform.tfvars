@@ -20,8 +20,8 @@ services = {
     desired_count  = 2
     lb_config = {
       ingress_cidrs = ["0.0.0.0/0"]
-      pattern_path  = "/*"
-      priortiy      = 100
+      path_pattern  = "/*"
+      priority      = 100
     }
     dependent_services = [
       {
