@@ -1,6 +1,6 @@
 
 locals {
-  env = "${var.application_name}-${var.env}"
+  env = replace(lower("${var.application_name}-${var.env}"), "/[^a-z0-9-]/", "-")
 }
 
 module "micro-service-platform" {
