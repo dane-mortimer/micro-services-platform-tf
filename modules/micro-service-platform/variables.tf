@@ -15,7 +15,7 @@ variable "services" {
     container_name  = string
     container_image = string
     container_port  = number
-    loadbalancerConfiguration = optional(object({
+    lb_config = optional(object({
       ingress_cidrs = list(string)
       subnets       = string
       path_pattern  = string

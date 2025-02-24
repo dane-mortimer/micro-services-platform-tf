@@ -1,11 +1,11 @@
 resource "aws_lb" "main" {
-  count              = var.loadbalancerConfiguration != null ? 1 : 0
+  count              = var.lb_config != null ? 1 : 0
 
   name               = "${local.name}-alb"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_sg[0].id]
-  subnets            = var.loadbalancerConfiguration.subnets
+  subnets            = var.lb_config.subnets
 
   tags = merge(var.tags, {
     Name = "${var.env}-alb"
@@ -13,7 +13,7 @@ resource "aws_lb" "main" {
 }
 
 resource "aws_lb_target_group" "main" {
-  count    = var.loadbalancerConfiguration != null ? 1 : 0
+  count    = var.lb_config != null ? 1 : 0
 
   name     = "${local.name}-tg"
   port     = var.container_port
@@ -37,7 +37,7 @@ resource "aws_lb_target_group" "main" {
 }
 
 resource "aws_lb_listener" "http" {
-  count             = var.loadbalancerConfiguration != null ? 1 : 0
+  count             = var.lb_config != null ? 1 : 0
 
   load_balancer_arn = aws_lb.main[0].arn
   port              = 80
@@ -54,10 +54,10 @@ resource "aws_lb_listener" "http" {
 }
 
 resource "aws_lb_listener_rule" "service_rules" {
-  count        = var.loadbalancerConfiguration != null ? 1 : 0
+  count        = var.lb_config != null ? 1 : 0
 
   listener_arn = aws_lb_listener.http[0].arn
-  priority     = var.loadbalancerConfiguration != null ? var.loadbalancerConfiguration.priority : 100
+  priority     = var.lb_config != null ? var.lb_config.priority : 100
 
   action {
     type             = "forward"
@@ -66,7 +66,7 @@ resource "aws_lb_listener_rule" "service_rules" {
 
   condition {
     path_pattern {
-      values = [var.loadbalancerConfiguration != null ? var.loadbalancerConfiguration.path_pattern : "/*"]
+      values = [var.lb_config != null ? var.lb_config.path_pattern : "/*"]
     }
   }
   tags        = merge(var.tags, {

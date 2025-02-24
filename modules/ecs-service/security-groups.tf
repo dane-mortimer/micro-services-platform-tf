@@ -1,6 +1,6 @@
 # Define the security group for the ALB
 resource "aws_security_group" "alb_sg" {
-  count       = var.loadbalancerConfiguration != null ? 1 : 0
+  count       = var.lb_config != null ? 1 : 0
 
   name        = "${var.env}-alb-sg"
   description = "Security group for the Application Load Balancer"
@@ -10,14 +10,14 @@ resource "aws_security_group" "alb_sg" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = var.loadbalancerConfiguration.ingress_cidrs
+    cidr_blocks = var.lb_config.ingress_cidrs
   }
 
   ingress {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = var.loadbalancerConfiguration.ingress_cidrs
+    cidr_blocks = var.lb_config.ingress_cidrs
   }
 
   egress {

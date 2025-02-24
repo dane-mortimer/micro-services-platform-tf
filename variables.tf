@@ -20,9 +20,10 @@ variable "services" {
     container_image = string
     container_port  = number
     lb_config = optional(object({
+      ingress_cidrs = list(string)
+      subnets       = string
       path_pattern  = string
       priority      = number
-      ingress_cidrs = list(string)
     }))
     dependent_services = list(object({
       dns  = string

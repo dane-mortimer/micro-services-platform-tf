@@ -42,7 +42,7 @@ variable "execution_role_arn" {
   type = string
 }
 
-variable "loadbalancerConfiguration" {
+variable "lb_config" {
   type = object({
     subnets       = list(string)
     path_pattern  = string

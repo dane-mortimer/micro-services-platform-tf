@@ -30,7 +30,7 @@ module "ecs_service" {
   cpu                           = each.value.cpu
   memory                        = each.value.memory
   execution_role_arn            = var.execution_role_arn
-  loadbalancerConfiguration     = each.value.loadbalancerConfiguration != null ? merge(each.value.loadbalancerConfiguration, {
+  lb_config                     = each.value.lb_config != null ? merge(each.value.lb_config, {
     subnets = module.vpc.private_subnet_ids
   }) : null
   dependent_services            = each.value.dependent_services
