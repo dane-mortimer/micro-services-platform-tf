@@ -1,3 +1,3 @@
 locals {
-  service_name = "${var.application_environment}-${var.service_name}"
+  name = "${var.env}-${var.service_name}"
 }

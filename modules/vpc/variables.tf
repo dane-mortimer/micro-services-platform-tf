@@ -1,5 +1,5 @@
-variable "vpc_name" {
-  description = "Name of the VPC"
+variable "env" {
+  description = "Environment VPC will be deployed to"
   type        = string
 }
 
@@ -25,4 +25,10 @@ variable "availability_zones" {
   description = "List of availability zones for subnets"
   type        = list(string)
   default     = ["eu-west-1a", "eu-west-1b"]
+}
+
+variable "tags" {
+  description = "Common tags to apply to all resources"
+  type        = map(string)
+  default     = {} 
 }

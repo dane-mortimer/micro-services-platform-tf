@@ -3,9 +3,9 @@ resource "aws_vpc" "this" {
   cidr_block           = var.vpc_cidr
   enable_dns_support   = true
   enable_dns_hostnames = true
-  tags = {
-    Name = var.vpc_name
-  }
+  tags = merge(var.tags, {
+    Name        = var.env
+  })
 }
 
 # Create Public Subnets
@@ -16,7 +16,7 @@ resource "aws_subnet" "public" {
   availability_zone       = var.availability_zones[count.index]
   map_public_ip_on_launch = true
   tags = {
-    Name = "${var.vpc_name}-public-subnet-${count.index + 1}"
+    Name = "${var.env}-public-subnet-${count.index + 1}"
   }
 }
 
@@ -26,25 +26,25 @@ resource "aws_subnet" "private" {
   vpc_id            = aws_vpc.this.id
   cidr_block        = var.private_subnet_cidrs[count.index]
   availability_zone = var.availability_zones[count.index]
-  tags = {
-    Name = "${var.vpc_name}-private-subnet-${count.index + 1}"
-  }
+  tags = merge(var.tags, {
+    Name = "${var.env}-private-subnet-${count.index + 1}"
+  }) 
 }
 
 # Create Internet Gateway
 resource "aws_internet_gateway" "this" {
   vpc_id = aws_vpc.this.id
-  tags = {
-    Name = "${var.vpc_name}-igw"
-  }
+  tags = merge(var.tags, {
+    Name = "${var.env}-igw"
+  })
 }
 
 # Create Public Route Table
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.this.id
-  tags = {
-    Name = "${var.vpc_name}-public-rt"
-  }
+  tags = merge(var.tags, {
+    Name = "${var.env}-public-rt"
+  })
 }
 
 # Associate Public Subnets with Public Route Table
@@ -64,9 +64,9 @@ resource "aws_route" "public_internet_gateway" {
 # Create Private Route Table
 resource "aws_route_table" "private" {
   vpc_id = aws_vpc.this.id
-  tags = {
-    Name = "${var.vpc_name}-private-rt"
-  }
+  tags = merge(var.tags, {
+    Name = "${var.env}-private-rt"
+  })
 }
 
 # Associate Private Subnets with Private Route Table

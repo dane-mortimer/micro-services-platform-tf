@@ -1,96 +1,84 @@
-variable "application_environment" {
-  description = "Name of the ECS service"
-  type        = string
+variable "env" {
+  type = string
 }
 
 variable "service_name" {
-  description = "Name of the service"
-  type        = string
-
+  type = string
 }
 
-variable "cluster_id" {
-  description = "ID of the ECS Cluster"
-  type        = string
-}
-
-variable "container_name" {
-  description = "Name of the container"
-  type        = string
-}
-
-variable "container_image" {
-  description = "Docker image for the container"
-  type        = string
-}
-
-variable "container_port" {
-  description = "Port on which the container listens"
-  type        = number
-}
-
-variable "cpu" {
-  description = "CPU units for the task"
-  type        = number
-  default     = 256
-}
-
-variable "memory" {
-  description = "Memory for the task"
-  type        = number
-  default     = 512
+variable "ecs_cluster_id" {
+  type = string
 }
 
 variable "desired_count" {
-  description = "Number of tasks to run"
-  type        = number
-  default     = 1
-}
-
-variable "vpc_id" {
-  description = "VPC ID where resources will be created"
-  type        = string
+  type = number
 }
 
 variable "subnets" {
-  description = "Subnets for the ECS service"
-  type        = list(string)
+  type = list(string)
 }
 
-variable "health_check_path" {
-  description = "Health check path for the target group"
-  type        = string
-  default     = "/"
+variable "container_name" {
+  type = string
+}
+
+variable "container_image" {
+  type = string
+}
+
+variable "container_port" {
+  type = number
+}
+
+variable "cpu" {
+  type = number
+}
+
+variable "memory" {
+  type = number
+}
+
+variable "execution_role_arn" {
+  type = string
+}
+
+variable "loadbalancerConfiguration" {
+  type = object({
+    subnets       = list(string)
+    path_pattern  = string
+    ingress_cidrs = list(string)
+    priority      = number
+  })
+  default = null
+}
+
+variable "dependent_services" {
+  type = list(object({
+    dns  = string
+    port = number
+  }))
+  default = []
+}
+
+variable "vpc_id" {
+  type = string
+}
+
+variable "service_connect_namespace_arn" {
+  type = string
 }
 
 variable "task_role_policy_statements" {
-  description = "List of IAM policy statements for the ECS task role"
   type = list(object({
-    Effect   = string
-    Action   = list(string)
-    Resource = list(string)
+    effect    = string
+    actions   = list(string)
+    resources = list(string)
   }))
-  default = [
-    {
-      Effect   = "Allow"
-      Action   = ["s3:GetObject"]
-      Resource = ["arn:aws:s3:::example-bucket/*"]
-    }
-  ]
+  default = []
 }
 
-variable "load_balancer_security_group_id" {
-  description = "Load balancer security group ID"
-  type        = string
-}
-
-variable "loadbalancer_target_group_arn" {
-  description = "Load balancer target group arn"
-  type        = string
-}
-
-variable "aws_region" {
-  description = "AWS region"
-  type        = string
-  default     = "eu-west-1"
+variable "tags" {
+  description = "Common tags to apply to all resources"
+  type        = map(string)
+  default     = {} 
 }

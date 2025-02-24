@@ -1,26 +1,40 @@
-locals {
-  application_environment = "${var.application_name}-${var.environment}"
-  container_port          = 80
-  vpc_name                = "${local.application_environment}-vpc"
-}
-
 module "vpc" {
-  source    = "../vpc"
+  source = "../vpc"
 
-  vpc_name  = local.vpc_name
+  env                 = var.env
+  vpc_cidr            = var.vpc_cidr
+  tags                = var.tags
 }
 
 module "ecs_cluster" {
-  source       = "../ecs-cluster"  # Path to the local module directory
+  source = "../ecs-cluster"
 
-  cluster_name = "${local.application_environment}-cluster"
+  env     = var.env
+  vpc_id  = module.vpc.vpc_id
+  tags    = var.tags
 }
 
-module "load_balancer" {
-  source                  = "../load-balancer"
+module "ecs_service" {
+  for_each                      = var.services
 
-  vpc_id                  = module.vpc.vpc_id
-  application_environment = local.application_environment
-  container_port          = local.container_port
-  subnets                 = [ "${local.vpc_name}-private-subnet-1", "${local.vpc_name}-private-subnet-1"]
+  source                        = "../ecs-service"
+
+  env                           = var.env
+  service_name                  = each.key
+  ecs_cluster_id                = module.ecs_cluster.ecs_cluster_id
+  desired_count                 = each.value.desired_count
+  subnets                       = module.vpc.public_subnet_ids
+  container_name                = each.value.container_name
+  container_image               = each.value.container_image
+  container_port                = each.value.container_port
+  cpu                           = each.value.cpu
+  memory                        = each.value.memory
+  execution_role_arn            = var.execution_role_arn
+  loadbalancerConfiguration     = each.value.loadbalancerConfiguration != null ? merge(each.value.loadbalancerConfiguration, {
+    subnets = module.vpc.private_subnet_ids
+  }) : null
+  dependent_services            = each.value.dependent_services
+  vpc_id                        = module.vpc.vpc_id
+  service_connect_namespace_arn = module.ecs_cluster.service_connect_namespace_arn
+  tags                          = var.tags
 }
