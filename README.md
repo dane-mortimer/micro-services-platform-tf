@@ -2,8 +2,11 @@
 
 [Check out the AWS CDK version here](https://github.com/dane-mortimer/micro-service-platform)
 
+The AWS CDK version repository includes an architecture diagram and a bit more about the pattern
+
 :warning: **_Disclaimer_** :warning:
-This Terraform configuration is a blueprint or starting point for developing your own microservices platform. It has not been deployed to avoid incurring infrastructure costs.
+
+This Terraform module is a blueprint or starting point for developing your own microservices platform. It has not been deployed to avoid incurring infrastructure costs.
 
 To make this functional, additional steps are required, such as:
 
