@@ -32,6 +32,14 @@ variable "services" {
       actions   = list(string)
       resources = list(string)
     })), [])
+    max_capacity          = optional(number)
+    min_capacity          = optional(number)
+    cpu_target_value      = optional(number)
+    memory_target_value   = optional(number)
+    environment_variables = optional(list(object({ 
+      name = string, 
+      value = string 
+    })))
   }))
 }
 

@@ -32,11 +32,28 @@ brew install pre-commit && pre-commit install
 
 ```bash
 aws sts get-caller-identity
+export AWS_REGION=eu-west-1
+```
+
+### Create ECR Repositories
+
+```bash
+./scripts/check-and-create-ecr-repo.sh user-service $AWS_REGION
+./scripts/check-and-create-ecr-repo.sh movie-service $AWS_REGION
+```
+
+### Build and Push Service Dockerfiles
+
+```bash
+./scripts/build-and-push-to-ecr.sh user-service $AWS_REGION ./services/user-service
+./scripts/build-and-push-to-ecr.sh movie-service $AWS_REGION ./services/movie-service
 ```
 
 ### Define configuration
 
-Define your configuration in `terraform.tfvars`
+Define your configuration in `terraform.tfvars`.
+
+Ensure container_image matches your ECR repository full image URI.
 
 ```tfvars
 env = "dev"
@@ -50,26 +67,32 @@ tags = {
   Team        = "DevOps"
 }
 
-
 services = {
-  "app1" = {
-    container_name  = "app1-container"
-    container_image = "myrepo/app1:latest"
-    container_port  = 80
-    cpu            = 256
-    memory         = 512
-    desired_count  = 2
+  "user-service" = {
+    container_name      = "user-service"
+    container_image     = "myrepo/user-service:latest"
+    container_port      = 8080
+    cpu                 = 256
+    memory              = 512
+    desired_count       = 2
+    max_capacity        = 10
+    min_capacity        = 1
+    cpu_target_value    = 60
+    memory_target_value = 60
+
     lb_config = {
       ingress_cidrs = ["0.0.0.0/0"]
       pattern_path  = "/*"
       priortiy      = 100
     }
+
     dependent_services = [
       {
         dns  = "app2"
         port = 8080
       }
     ]
+
     task_role_policy_statements = [
       {
         effect    = "Allow"
@@ -78,10 +101,10 @@ services = {
       }
     ]
   },
-  "app2" = {
-    container_name  = "app2-container"
-    container_image = "myrepo/app2:latest"
-    container_port  = 8080
+  "movie-service" = {
+    container_name  = "movie-service"
+    container_image = "myrepo/movie-service:latest"
+    container_port  = 8081
     cpu            = 512
     memory         = 1024
     desired_count  = 1

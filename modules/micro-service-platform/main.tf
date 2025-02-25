@@ -36,5 +36,10 @@ module "ecs_service" {
   dependent_services            = each.value.dependent_services
   vpc_id                        = module.vpc.vpc_id
   service_connect_namespace_arn = module.ecs_cluster.service_connect_namespace_arn
+  environment_variables         = each.value.environment_variables
+  max_capacity                  = each.value.max_capacity
+  min_capacity                  = each.value.min_capacity
+  cpu_target_value              = each.value.cpu_target_value
+  memory_target_value           = each.value.memory_target_value
   tags                          = var.tags
 }

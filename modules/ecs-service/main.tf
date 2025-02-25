@@ -1,8 +1,3 @@
-resource "aws_security_group" "service_security_group" {
-  
-}
-
-
 resource "aws_ecs_service" "main" {
   name            = "${local.name}-service"
   cluster         = var.ecs_cluster_id
@@ -60,12 +55,14 @@ resource "aws_ecs_task_definition" "main" {
           hostPort      = var.container_port
         }
       ]
-      environment = [
-        for dep in var.dependent_services : {
-          name  = "${upper(replace(dep.dns, "-", "_"))}_DNS"
-          value = "${dep.dns}.${var.env}.local"
-        }
-      ]
+      environment = concat([
+          for dep in var.dependent_services : {
+            name  = "${upper(replace(dep.dns, "-", "_"))}_DNS"
+            value = "${dep.dns}.${var.env}.local"
+          }
+        ],
+        var.environment_variables
+      )
     }
   ])
 }

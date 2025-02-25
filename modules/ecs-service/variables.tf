@@ -22,6 +22,15 @@ variable "container_name" {
   type = string
 }
 
+variable "environment_variables" {
+  description = "List of custom environment variables to pass to the container"
+  type = list(object({
+    name  = string
+    value = string
+  }))
+  default = []
+}
+
 variable "container_image" {
   type = string
 }
@@ -75,6 +84,30 @@ variable "task_role_policy_statements" {
     resources = list(string)
   }))
   default = []
+}
+
+variable "max_capacity" {
+  description = "Maximum number of tasks for the ECS service"
+  type        = number
+  default     = 10
+}
+
+variable "min_capacity" {
+  description = "Minimum number of tasks for the ECS service"
+  type        = number
+  default     = 1
+}
+
+variable "cpu_target_value" {
+  description = "Target CPU utilization percentage for scaling"
+  type        = number
+  default     = 70
+}
+
+variable "memory_target_value" {
+  description = "Target memory utilization percentage for scaling"
+  type        = number
+  default     = 70
 }
 
 variable "tags" {

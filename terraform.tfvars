@@ -11,13 +11,17 @@ tags = {
 
 
 services = {
-  "app1" = {
-    container_name  = "app1-container"
-    container_image = "myrepo/app1:latest"
-    container_port  = 80
-    cpu            = 256
-    memory         = 512
-    desired_count  = 2
+  "user-service" = {
+    container_name        = "user-service"
+    container_image       = "myrepo/user-service:latest"
+    container_port        = 80
+    cpu                   = 256
+    memory                = 512
+    desired_count         = 2
+    max_capacity          = 10
+    min_capacity          = 1 
+    cpu_target_value      = 60
+    memory_target_value   = 60
     lb_config = {
       ingress_cidrs = ["0.0.0.0/0"]
       path_pattern  = "/*"
@@ -36,10 +40,16 @@ services = {
         resources = ["arn:aws:s3:::my-bucket/*"]
       }
     ]
+    environment_variables = [
+      {
+        name  = "MY_VAR"
+        value = "MY_VAL"
+      }
+    ]
   },
-  "app2" = {
-    container_name  = "app2-container"
-    container_image = "myrepo/app2:latest"
+  "movie-service" = {
+    container_name  = "movie-service"
+    container_image = "myrepo/movie-service:latest"
     container_port  = 8080
     cpu            = 512
     memory         = 1024
