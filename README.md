@@ -1,9 +1,10 @@
 # Unified Micro-Services Platform Terraform
 
-- [Check out the AWS CDK version here](https://github.com/dane-mortimer/micro-service-platform)
-  - The AWS CDK version repository includes an architecture diagram and a bit more about the pattern
+[Check out the AWS CDK version here](https://github.com/dane-mortimer/micro-service-platform)
 
-:clipboard: [Checkout the TF Docs](./TF_DOCS.md) :clipboard:
+- The AWS CDK version repository includes an architecture diagram and a bit more about the pattern
+
+---
 
 :warning: **_Disclaimer_** :warning:
 
@@ -18,6 +19,8 @@ To make this functional, additional steps are required, such as:
 This blueprint is not production-ready and should not be treated as such. Use it as a reference or foundation for building and customizing your platform according to your specific needs.
 
 # Usage
+
+:clipboard: [Checkout the TF Docs](./TF_DOCS.md) :clipboard:
 
 ### Install dependencies :pencil:
 
