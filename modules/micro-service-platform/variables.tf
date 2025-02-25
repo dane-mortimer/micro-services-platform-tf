@@ -1,9 +1,13 @@
 variable "env" {
-  type = string
+  description = "Name of the application environment. E.g. dev, staging, production"
+  type        = string
+  default     = "dev"
 }
 
 variable "vpc_cidr" {
-  type = string
+  description = "VPC Cidr Range"
+  type        = string
+  default     = "10.0.0.0/16"
 }
 
 variable "services" {

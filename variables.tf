@@ -1,16 +1,23 @@
 variable "env" {
-  type = string
+  description = "Name of the application environment. E.g. dev, staging, production"
+  type        = string
+  default     = "dev"
 }
 
 variable "application_name" {
-  type = string
+  description = "Unique identifier for the application. e.g. ExampleApplication"
+  type        = string
+  default     = "example-project"
 }
 
 variable "vpc_cidr" {
-  type = string
+  description = "VPC Cidr Range"
+  type        = string
+  default     = "10.0.0.0/16"
 }
 
 variable "services" {
+  description = "Configuration for ECS Services"
   type = map(object({
     container_name  = string
     container_image = string
@@ -40,10 +47,10 @@ variable "services" {
 }
 
 variable "tags" {
-  type = map(string)
+  description = "Common tags to be applied to all resources"
+  type        = map(string)
   default = {
     Environment = "dev"
-    Project     = "MyProject"
+    Project     = "example-project"
   }
-  description = "Common tags to be applied to all resources"
 }

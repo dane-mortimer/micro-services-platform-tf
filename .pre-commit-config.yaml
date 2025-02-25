@@ -25,7 +25,7 @@ repos:
               ^.projen/|
               ^.mergify.yml|
               ^.*.json |
-              ^API.md 
+              ^TF_DOCS.md 
           )
   - repo: local
     hooks:
@@ -36,6 +36,8 @@ repos:
   - repo: local
     hooks:
       - id: terraform-docs
-        name: terraform create docs
+        name: Generate Combined Terraform Docs
         entry: .pre-commit/hooks/terraform-docs.sh
-        language: system
+        language: script
+        pass_filenames: false
+        always_run: true
