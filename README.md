@@ -1,8 +1,9 @@
 # Micro Services Platform Terraform
 
-[Check out the AWS CDK version here](https://github.com/dane-mortimer/micro-service-platform)
+- [Check out the AWS CDK version here](https://github.com/dane-mortimer/micro-service-platform)
+  \*\* The AWS CDK version repository includes an architecture diagram and a bit more about the pattern
 
-The AWS CDK version repository includes an architecture diagram and a bit more about the pattern
+:clipboard: [Checkout the TF Docs](./TF_DOCS.md) :clipboard:
 
 :warning: **_Disclaimer_** :warning:
 
@@ -18,7 +19,7 @@ This blueprint is not production-ready and should not be treated as such. Use it
 
 # Usage
 
-### Install dependencies
+### Install dependencies :pencil:
 
 ```bash
 # Install terraform
@@ -31,28 +32,28 @@ brew install pre-commit && pre-commit install
 brew install terraform-docs
 ```
 
-### Assume AWS Account Credentials
+### Assume AWS Account Credentials :pencil:
 
 ```bash
 aws sts get-caller-identity
 export AWS_REGION=eu-west-1
 ```
 
-### Create ECR Repositories
+### Create ECR Repositories :pencil:
 
 ```bash
 ./scripts/check-and-create-ecr-repo.sh user-service $AWS_REGION
 ./scripts/check-and-create-ecr-repo.sh movie-service $AWS_REGION
 ```
 
-### Build and Push Service Dockerfiles
+### Build and Push Service Dockerfiles :pencil:
 
 ```bash
 ./scripts/build-and-push-to-ecr.sh user-service $AWS_REGION ./services/user-service
 ./scripts/build-and-push-to-ecr.sh movie-service $AWS_REGION ./services/movie-service
 ```
 
-### Define configuration
+### Define configuration :pencil:
 
 Define your configuration in `terraform.tfvars`.
 
@@ -116,7 +117,7 @@ services = {
 }
 ```
 
-### Deploy terraform modules
+### Deploy terraform modules :pencil:
 
 ```bash
 terraform init
