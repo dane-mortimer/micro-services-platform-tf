@@ -1,7 +1,7 @@
 # Unified Micro-Services Platform Terraform
 
 - [Check out the AWS CDK version here](https://github.com/dane-mortimer/micro-service-platform)
-  \*\* The AWS CDK version repository includes an architecture diagram and a bit more about the pattern
+  - The AWS CDK version repository includes an architecture diagram and a bit more about the pattern
 
 :clipboard: [Checkout the TF Docs](./TF_DOCS.md) :clipboard:
 
