@@ -33,3 +33,9 @@ repos:
         name: terraform validate
         entry: .pre-commit/hooks/terraform-validate.sh
         language: system
+  - repo: local
+    hooks:
+      - id: terraform-docs
+        name: terraform create docs
+        entry: .pre-commit/hooks/terraform-docs.sh
+        language: system

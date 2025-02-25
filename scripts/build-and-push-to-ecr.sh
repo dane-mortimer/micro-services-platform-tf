@@ -1,4 +1,4 @@
-#!/usr/local/bin bash
+#!/usr/bin/env bash
 
 # Script 2: Build, Tag, and Push Docker Image to ECR
 

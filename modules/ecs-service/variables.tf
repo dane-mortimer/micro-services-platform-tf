@@ -47,10 +47,6 @@ variable "memory" {
   type = number
 }
 
-variable "execution_role_arn" {
-  type = string
-}
-
 variable "lb_config" {
   type = object({
     subnets       = list(string)

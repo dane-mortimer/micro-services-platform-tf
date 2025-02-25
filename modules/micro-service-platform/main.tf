@@ -29,7 +29,6 @@ module "ecs_service" {
   container_port                = each.value.container_port
   cpu                           = each.value.cpu
   memory                        = each.value.memory
-  execution_role_arn            = var.execution_role_arn
   lb_config                     = each.value.lb_config != null ? merge(each.value.lb_config, {
     subnets = module.vpc.private_subnet_ids
   }) : null

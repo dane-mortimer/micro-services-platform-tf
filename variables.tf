@@ -10,10 +10,6 @@ variable "vpc_cidr" {
   type = string
 }
 
-variable "execution_role_arn" {
-  type = string
-}
-
 variable "services" {
   type = map(object({
     container_name  = string
